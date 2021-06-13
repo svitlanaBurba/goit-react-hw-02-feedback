@@ -1,0 +1,61 @@
+import {React, Component} from 'react';
+import FeedbackOptions from './components/feedbackOptions/FeedbackOptions';
+import Notification from './components/notification/Notification';
+import Section from './components/section/Section';
+import Statistics from './components/statistics/Statistics';
+
+class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      good: 0,
+      neutral: 0,
+      bad: 0
+    };
+
+    this.options = Object.keys(this.state);
+
+    this.onLeaveFeedback = this.onLeaveFeedback.bind(this);
+  }
+
+  onLeaveFeedback(event) {
+    let option = event.target.dataset.option;
+    this.setState(prevState => ({[option]: prevState[option] + 1}));
+  }
+
+  getTotal() {
+    return this.state.good + this.state.neutral + this.state.bad;
+  }
+
+  render() {
+    return (
+      <>
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={this.options}
+            onLeaveFeedback={this.onLeaveFeedback}
+          />
+        </Section>
+        <Section title="Statistics">
+          {this.getTotal() > 0 ? (
+            <Statistics
+              options={this.options}
+              feedback={this.state}
+              total={this.getTotal()}
+              positivePercentage={
+                this.getTotal() !== 0
+                  ? Math.round((this.state.good / this.getTotal()) * 100)
+                  : 0
+              }
+            ></Statistics>
+          ) : (
+            <Notification message="No feedback given"></Notification>
+          )}
+        </Section>
+      </>
+    );
+  }
+}
+
+export default App;

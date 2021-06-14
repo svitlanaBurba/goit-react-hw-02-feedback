@@ -5,7 +5,15 @@ import Section from './components/section/Section';
 import Statistics from './components/statistics/Statistics';
 
 class App extends Component {
-  constructor() {
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0
+  };
+
+  options = Object.keys(this.state);
+
+  /*   constructor() {
     super();
 
     this.state = {
@@ -16,13 +24,13 @@ class App extends Component {
 
     this.options = Object.keys(this.state);
 
-    this.onLeaveFeedback = this.onLeaveFeedback.bind(this);
-  }
+    //this.onLeaveFeedback = this.onLeaveFeedback.bind(this);
+  } */
 
-  onLeaveFeedback(event) {
-    let option = event.target.dataset.option;
+  onLeaveFeedback = event => {
+    const option = event.target.dataset.option;
     this.setState(prevState => ({[option]: prevState[option] + 1}));
-  }
+  };
 
   getTotal() {
     return this.state.good + this.state.neutral + this.state.bad;
@@ -38,7 +46,7 @@ class App extends Component {
           />
         </Section>
         <Section title="Statistics">
-          {this.getTotal() > 0 ? (
+          {this.getTotal() ? (
             <Statistics
               options={this.options}
               feedback={this.state}

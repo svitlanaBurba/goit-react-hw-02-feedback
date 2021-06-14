@@ -1,17 +1,16 @@
-import {React, Component} from 'react';
+import {React} from 'react';
 import PropTypes from 'prop-types';
 import {ButtonContainer} from './ButtonContainerStyled';
 
-class FeedbackOptions extends Component {
-  render() {
+const FeedbackOptions = ({options,onLeaveFeedback}) => {
     return (
       <>
-        {this.props.options.map(option => (
+        {options.map(option => (
           <ButtonContainer
             key={option}
             type="button"
             data-option={option}
-            onClick={this.props.onLeaveFeedback}
+            onClick={onLeaveFeedback}
           >
             {option}
           </ButtonContainer>
@@ -19,10 +18,10 @@ class FeedbackOptions extends Component {
       </>
     );
   }
-}
+
 
 FeedbackOptions.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.string),
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
   onLeaveFeedback: PropTypes.func.isRequired
 };
 export default FeedbackOptions;
